@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTribute, updateTribute } from "../lib/tribute";
 import { uploadTributePhotos } from "../lib/photoUpload";
+import MeaningfulDetailsSection from "../components/MeaningfulDetailsSection";
 
 const RELATIONSHIPS = [
   "Parent",
@@ -48,6 +49,7 @@ export default function StartTribute() {
   const [captions, setCaptions] = useState({});
   const [captionOpen, setCaptionOpen] = useState({});
   const [memoryText, setMemoryText] = useState("");
+  const [highlights, setHighlights] = useState([]);
   const [creatorName, setCreatorName] = useState("");
   const [email, setEmail] = useState("");
   const [visibility, setVisibility] = useState("public");
@@ -112,13 +114,6 @@ export default function StartTribute() {
     });
   }
 
-  function addPromptText(prompt) {
-    setMemoryText((prev) => {
-      const spacer = prev.trim() ? "\n\n" : "";
-      return `${prev}${spacer}${prompt}`;
-    });
-  }
-
   function generateTributeStarter() {
     setMemoryText((prev) => (prev.trim() ? prev : buildStarter(name, relationship)));
   }
@@ -143,7 +138,7 @@ export default function StartTribute() {
         allowPhotoReactions,
         birthYear: "",
         passingYear: "",
-        highlights: [],
+        highlights,
         photoCount: 0,
         photoUrls: [],
       });
@@ -378,30 +373,6 @@ export default function StartTribute() {
                 Share what made them special. A few loving sentences are enough to begin.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() => addPromptText("What I will always remember most is...")}
-                  className="rounded-full bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200"
-                >
-                  What I will always remember...
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addPromptText("They made people feel loved by...")}
-                  className="rounded-full bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200"
-                >
-                  They made people feel loved by...
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addPromptText("One of my favorite memories is...")}
-                  className="rounded-full bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200"
-                >
-                  One of my favorite memories...
-                </button>
-              </div>
-
               <div className="mt-8">
                 <label className="block text-sm font-medium text-stone-700">Tribute text</label>
                 <textarea
@@ -419,9 +390,17 @@ export default function StartTribute() {
                   onClick={generateTributeStarter}
                   className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-100"
                 >
+                  <svg viewBox="0 0 24 24" className="mr-2 h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="M3 21l9-9" strokeLinecap="round" />
+                    <path d="M10 14l3 3" strokeLinecap="round" />
+                    <path d="M14.5 4.5l.8-1.8.8 1.8 1.8.8-1.8.8-.8 1.8-.8-1.8-1.8-.8z" strokeLinejoin="round" />
+                    <path d="M19 9l.5-1 .5 1 1 .5-1 .5-.5 1-.5-1-1-.5z" strokeLinejoin="round" />
+                  </svg>
                   Help me write this
                 </button>
               </div>
+
+              <MeaningfulDetailsSection highlights={highlights} setHighlights={setHighlights} />
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <button
