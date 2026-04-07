@@ -4,8 +4,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseClient";
 
 export default function PlaqueRouter() {
-  const { plaqueC } = useParams();
-  const navigate = useNavigate();``
+  const { plaqueId } = useParams();
+  const navigate = useNavigate();
 
   const [status, setStatus] = useState("loading");
   const [errorMessage, setErrorMessage] = useState("");

@@ -111,27 +111,6 @@ export default function Grounds() {
           </div>
         </section>
 
-        {/* Pricing */}
-        <section className="mx-auto max-w-4xl px-6 pb-12 pt-16 text-center">
-          <h3 className="text-3xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-4xl">Simple Pricing</h3>
-
-          <div className="mx-auto mt-6 max-w-xl divide-y divide-white/25 text-left">
-            <div className="flex items-end justify-between py-4">
-              <p className="text-lg text-white/90">One-time visit</p>
-              <p className="text-2xl font-semibold text-white">$79</p>
-            </div>
-
-            <div className="flex items-end justify-between py-4">
-              <p className="text-lg text-white/90">Annual care plan</p>
-              <p className="text-2xl font-semibold text-white">$149</p>
-            </div>
-          </div>
-
-          <p className="mt-6 text-sm text-white/70">
-            Now serving the Atlanta area
-          </p>
-        </section>
-
       </div>
     </main>
   );

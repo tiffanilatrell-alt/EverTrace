@@ -46,8 +46,7 @@ export default function PlaquePurchase() {
   }, [tributeId]);
 
   function handleContinuePurchase() {
-    // Placeholder for your future checkout flow
-    alert("Next step: connect this button to your plaque checkout or order flow.");
+    navigate("/checkout/stories");
   }
 
   if (loading) {
