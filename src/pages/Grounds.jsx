@@ -4,108 +4,105 @@ export default function Grounds() {
   const navigate = useNavigate();
 
   return (
-    <main className="relative min-h-screen text-slate-900 overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden text-white">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/treewithroots.png')" }}
+        style={{ backgroundImage: "url('/GravesiteBeforeAfterBackgroundMom.png')" }}
       />
 
-      {/* Cream scrim overlay */}
-      <div className="absolute inset-0 bg-[#f5f1e8]/85" />
+      {/* Darkened overlay for white text readability */}
+      <div className="absolute inset-0 bg-slate-950/45" />
+      <div className="absolute inset-0 bg-gradient-to-br from-rose-100/10 via-white/5 to-transparent" />
 
       {/* Page content */}
       <div className="relative z-10">
-        <p className="absolute left-6 top-6 text-sm tracking-[0.16em] text-slate-500/75 md:text-base">
+        <p className="absolute left-6 top-6 text-sm tracking-[0.18em] text-white/75 md:text-base">
           EverTrace Grounds
         </p>
 
         {/* Hero */}
-        <section className="mx-auto max-w-4xl px-6 pb-4 pt-10 text-center">
-          <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight text-slate-900 md:text-5xl">
+        <section className="mx-auto max-w-4xl px-6 pb-6 pt-16 text-center md:pt-20">
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] sm:text-5xl md:text-6xl">
             Care for her place of remembrance
           </h1>
 
-          <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/90 sm:text-xl">
             When you can&apos;t visit, EverTrace Grounds helps care for the place
             where she rests&mdash;with thoughtful service and photo updates after
             each visit.
           </p>
         </section>
 
-        {/* Before / After proof - landscape focused */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <img
-            src="/GravesiteBeforeAndAfterMom.png?v=4"
-            alt="Before and after gravesite care comparison"
-            className="h-80 w-full rounded-2xl object-cover object-[center_68%] shadow-[0_12px_32px_rgba(15,23,42,0.10)] md:h-[25rem]"
-          />
-
-          <p className="mt-5 inline-flex w-full items-center justify-center gap-2 text-center text-lg font-medium text-slate-700 md:text-xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              className="h-5 w-5"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 7.5h3l1.2-2.1a1.5 1.5 0 011.3-.75h5.5a1.5 1.5 0 011.3.75l1.2 2.1h3A1.75 1.75 0 0122 9.25v8.5A1.75 1.75 0 0120.25 19.5H3.75A1.75 1.75 0 012 17.75v-8.5A1.75 1.75 0 013.75 7.5z"
-              />
-              <circle cx="12" cy="13" r="3.25" />
-            </svg>
-            <span>Photo updates are included after each completed visit.</span>
-          </p>
-        </section>
-
         {/* How EverTrace Grounds Works */}
         <section className="mx-auto max-w-5xl px-6 pb-16 pt-8">
-          <p className="mb-6 text-center font-serif text-2xl text-slate-900 md:text-3xl">
+          <p className="mb-6 text-center text-3xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-4xl">
             How EverTrace Grounds Works
           </p>
 
-          <div className="mt-10 grid gap-10 md:grid-cols-3 md:gap-12">
-            <div className="text-center">
-              <div className="text-base font-bold uppercase tracking-[0.22em] text-slate-500">
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-center shadow-xl backdrop-blur-md">
+              <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">
                 STEP 1
               </div>
-              <h3 className="mt-5 text-2xl font-semibold leading-tight text-slate-900 md:text-3xl">
+              <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">
                 Request a Visit
               </h3>
+              <p className="mt-3 text-sm leading-7 text-white/85 sm:text-base">
+                Tell us where she rests and choose the visit that feels right for
+                your family.
+              </p>
             </div>
 
-            <div className="text-center">
-              <div className="text-base font-bold uppercase tracking-[0.22em] text-slate-500">
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-center shadow-xl backdrop-blur-md">
+              <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">
                 STEP 2
               </div>
-              <h3 className="mt-5 text-2xl font-semibold leading-tight text-slate-900 md:text-3xl">
+              <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">
                 We Care for the Space
               </h3>
+              <p className="mt-3 text-sm leading-7 text-white/85 sm:text-base">
+                We complete thoughtful grounds care with attention, respect, and
+                memorial-area presentation.
+              </p>
             </div>
 
-            <div className="text-center">
-              <div className="text-base font-bold uppercase tracking-[0.22em] text-slate-500">
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-6 text-center shadow-xl backdrop-blur-md">
+              <div className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">
                 STEP 3
               </div>
-              <h3 className="mt-5 text-2xl font-semibold leading-tight text-slate-900 md:text-3xl">
+              <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">
                 Receive Photo Updates
               </h3>
+              <p className="mt-3 text-sm leading-7 text-white/85 sm:text-base">
+                After each completed visit, you receive photo confirmation so you
+                can see the care that was provided.
+              </p>
             </div>
           </div>
         </section>
 
+        {/* CTA */}
+        <section className="mx-auto max-w-3xl px-6 pb-16 pt-2 text-center">
+          <h3 className="text-3xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-4xl">
+            Schedule a visit when you need it
+          </h3>
+          <button
+            onClick={() => navigate("/checkout/grounds")}
+            className="mt-8 inline-flex rounded-xl bg-slate-900 px-8 py-4 text-xl font-semibold text-white transition hover:bg-slate-800"
+          >
+            Schedule a Visit
+          </button>
+        </section>
+
         {/* What's Included */}
         <section className="mx-auto max-w-5xl px-6 py-16">
-          <h3 className="text-center font-serif text-2xl text-slate-900 md:text-3xl">
+          <h3 className="text-center text-3xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-4xl">
             What&apos;s Included
           </h3>
 
           <div className="mx-auto mt-8 max-w-xl">
-            <ul className="space-y-5 text-left text-lg text-slate-700">
+            <ul className="space-y-5 text-left text-lg text-white/90">
               <li>Gentle headstone cleaning</li>
               <li>Debris and grass removal</li>
               <li>Light upkeep and presentation</li>
@@ -116,37 +113,25 @@ export default function Grounds() {
 
         {/* Pricing */}
         <section className="mx-auto max-w-4xl px-6 pb-12 pt-16 text-center">
-          <h3 className="font-serif text-2xl text-slate-900">Simple Pricing</h3>
+          <h3 className="text-3xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.28)] md:text-4xl">Simple Pricing</h3>
 
-          <div className="mx-auto mt-6 max-w-xl divide-y divide-white/70 text-left">
+          <div className="mx-auto mt-6 max-w-xl divide-y divide-white/25 text-left">
             <div className="flex items-end justify-between py-4">
-              <p className="text-lg text-slate-700">One-time visit</p>
-              <p className="text-2xl font-semibold text-slate-900">$79</p>
+              <p className="text-lg text-white/90">One-time visit</p>
+              <p className="text-2xl font-semibold text-white">$79</p>
             </div>
 
             <div className="flex items-end justify-between py-4">
-              <p className="text-lg text-slate-700">Annual care plan</p>
-              <p className="text-2xl font-semibold text-slate-900">$149</p>
+              <p className="text-lg text-white/90">Annual care plan</p>
+              <p className="text-2xl font-semibold text-white">$149</p>
             </div>
           </div>
 
-          <p className="mt-6 text-sm text-slate-500">
+          <p className="mt-6 text-sm text-white/70">
             Now serving the Atlanta area
           </p>
         </section>
 
-        {/* CTA */}
-        <section className="mx-auto max-w-3xl px-6 pb-16 pt-2 text-center">
-          <h3 className="font-serif text-3xl text-slate-900 md:text-4xl">
-            Schedule a visit when you need it
-          </h3>
-          <button
-            onClick={() => navigate("/checkout/grounds")}
-            className="mt-8 inline-flex rounded-xl bg-slate-900 px-8 py-4 text-xl font-semibold text-white transition hover:bg-slate-800"
-          >
-            Schedule a Visit
-          </button>
-        </section>
       </div>
     </main>
   );
