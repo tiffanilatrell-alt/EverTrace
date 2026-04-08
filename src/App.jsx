@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import StartTribute from "./pages/StartTribute";
 import ExampleTribute from "./pages/ExampleTribute";
@@ -11,7 +11,6 @@ import PreservePage from "./pages/PreservePage";
 import TributePage from "./pages/TributePage";
 import PublishSuccess from "./pages/PublishSuccess";
 import PlaqueRouter from "./pages/PlaqueRouter";
-import PlaquePurchase from "./pages/PlaquePurchase";
 import EditTribute from "./pages/EditTribute";
 
 export default function App() {
@@ -50,7 +49,7 @@ export default function App() {
 
         {/* Clean public URL (evertrace.life/001) */}
         <Route path="/:plaqueId" element={<PlaqueRouter />} />
-        <Route path="/plaque/:tributeId" element={<PlaquePurchase />} />
+        <Route path="/plaque/:tributeId" element={<Navigate to="/checkout/stories" replace />} />
         <Route path="/edit/:tributeId" element={<EditTribute />} />
       </Routes>
     </BrowserRouter>
