@@ -524,7 +524,7 @@ function TributePage() {
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
           <Link
-            to={`/plaque/${tributeId}`}
+            to="/checkout/stories"
             className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-amber-200 bg-white/95 px-5 py-3 text-sm font-medium text-slate-900 shadow-lg backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-amber-50 sm:w-auto"
           >
             Order Memorial Plaque

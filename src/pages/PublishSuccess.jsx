@@ -63,7 +63,7 @@ export default function PublishSuccess() {
 
             <div className="flex flex-wrap justify-center gap-3">
               <button
-                onClick={() => navigate(`/plaque/${tributeId}`)}
+                onClick={() => navigate("/checkout/stories")}
                 className="w-full rounded-xl bg-slate-900 px-6 py-3.5 text-base font-medium text-white transition hover:bg-slate-800 sm:w-auto"
               >
                 Order Memorial Plaque

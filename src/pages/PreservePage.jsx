@@ -194,7 +194,7 @@ export default function PreservePage() {
   }
 
   function goToPlaque() {
-    navigate(`/plaque/${tributeId}`);
+    navigate("/checkout/stories");
   }
 
   function goToGrounds() {
