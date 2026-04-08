@@ -19,7 +19,7 @@ const PRODUCT_CONFIG = {
     title: "Memorial Medallion + Story Setup",
     subtitle:
       "A lasting way to connect a physical marker to a digital tribute page.",
-    price: "$129",
+    price: "$54",
     cta: "Continue to Payment",
     companionTitle: "EverTrace Grounds",
     companionText:

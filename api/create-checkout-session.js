@@ -11,7 +11,7 @@ const PRODUCT_CONFIG = {
   stories: {
     name: "EverTrace Memorial Medallion + Story Setup",
     description: "A lasting way to connect a physical marker to a digital tribute page.",
-    unitAmount: 12900,
+    unitAmount: 5400,
   },
 };
 
