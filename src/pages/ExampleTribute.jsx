@@ -247,7 +247,7 @@ export default function ExampleTribute() {
               {/* PORTRAIT CARD */}
               <div className="overflow-hidden rounded-[1.75rem] border border-stone-200 bg-white shadow-sm">
                 <img
-                  src="/Young Mom.png"
+                  src="/YoungMom.png"
                   alt="Young portrait of Jean E. White"
                   className="h-72 w-full object-cover"
                 />
