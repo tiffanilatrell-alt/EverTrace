@@ -86,6 +86,22 @@ export default function ExampleTribute() {
             </div>
 
             <div>
+              <div className="overflow-hidden rounded-[1.5rem] bg-white shadow">
+                <img
+                  src="/Young Mom.png"
+                  alt="Young portrait of Jean E. White"
+                  className="h-64 w-full object-cover"
+                />
+                <div className="px-5 py-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-stone-500">
+                    In Loving Memory
+                  </p>
+                  <p className="mt-2 text-lg font-semibold text-slate-900">
+                    Jean E. White
+                  </p>
+                </div>
+              </div>
+
               <div className="rounded-[1.5rem] bg-stone-50 p-6">
                 <h3 className="text-xl font-semibold text-slate-900">
                   Why EverTrace
