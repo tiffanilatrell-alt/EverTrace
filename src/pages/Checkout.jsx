@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import plaqueBoxImage from "../assets/plaque-box.jpg";
 
 const PRODUCT_CONFIG = {
   grounds: {
@@ -183,6 +184,16 @@ export default function Checkout() {
           </div>
 
           <aside className="space-y-6">
+            {type === "stories" ? (
+              <div className="overflow-hidden rounded-[28px] border border-stone-200 bg-white shadow-sm">
+                <img
+                  src={plaqueBoxImage}
+                  alt="EverTrace memorial plaque in keepsake box"
+                  className="h-72 w-full object-cover"
+                />
+              </div>
+            ) : null}
+
             <div className="rounded-[28px] border border-stone-200 bg-white p-6 shadow-sm">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 Another Way to Remember
