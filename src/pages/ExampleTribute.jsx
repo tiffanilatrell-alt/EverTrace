@@ -59,7 +59,7 @@ export default function ExampleTribute() {
           <section className="relative">
             <div className="relative h-[430px] w-full md:h-[560px]">
               <img
-                src="/YoungMom.png"
+                src="/ExampleProfileBackground.png"
                 alt="Jean E. White tribute"
                 className="h-full w-full object-cover"
               />
