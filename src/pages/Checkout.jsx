@@ -87,7 +87,11 @@ export default function Checkout() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f1e8] text-slate-900">
+    <main className="relative min-h-screen bg-[#f5f1e8] text-slate-900">
+      <p className="absolute left-6 top-6 text-sm tracking-[0.18em] text-slate-500 md:text-base">
+        {product.label}
+      </p>
+
       <section className="mx-auto max-w-6xl px-6 py-14">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-[28px] border border-stone-200 bg-white p-6 shadow-sm md:p-8">
