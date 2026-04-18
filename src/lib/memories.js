@@ -13,8 +13,12 @@ export async function addMemory(tributeId, payload) {
 
 
   const docRef = await addDoc(memoriesRef, {
-    author: payload.author,
-    text: payload.text,
+    contributorName: payload.contributorName || payload.author || "",
+    memoryText: payload.memoryText || payload.text || "",
+    photoUrl: payload.photoUrl || "",
+    // Keep legacy fields for backwards compatibility with older rendering code.
+    author: payload.author || payload.contributorName || "",
+    text: payload.text || payload.memoryText || "",
     createdAt: serverTimestamp(),
     reactions: {
       candle: 0,

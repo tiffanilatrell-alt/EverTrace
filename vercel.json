@@ -1,6 +1,32 @@
 {
+  "redirects": [
+    {
+      "source": "/writing-a-meaningful-tribute",
+      "destination": "/resources/writing-a-meaningful-tribute",
+      "permanent": true
+    },
+    {
+      "source": "/writing-a-meaningful-triubte",
+      "destination": "/resources/writing-a-meaningful-tribute",
+      "permanent": true
+    },
+    {
+      "source": "/inviting-family-to-contribute",
+      "destination": "/resources/inviting-family-to-contribute",
+      "permanent": true
+    },
+    {
+      "source": "/planning-ongoing-grounds-care",
+      "destination": "/resources/planning-ongoing-grounds-care",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    { "source": "/resources/writing-a-meaningful-tribute", "destination": "/api/og?path=/resources/writing-a-meaningful-tribute" },
+    { "source": "/resources/inviting-family-to-contribute", "destination": "/api/og?path=/resources/inviting-family-to-contribute" },
+    { "source": "/resources/planning-ongoing-grounds-care", "destination": "/api/og?path=/resources/planning-ongoing-grounds-care" },
     { "source": "/create-checkout-session", "destination": "/api/create-checkout-session" },
+    { "source": "/generate-tribute-text", "destination": "/api/generate-tribute-text" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

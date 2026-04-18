@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import Home from "./pages/Home";
 import StartTribute from "./pages/StartTribute";
 import ExampleTribute from "./pages/ExampleTribute";
@@ -12,10 +13,29 @@ import TributePage from "./pages/TributePage";
 import PublishSuccess from "./pages/PublishSuccess";
 import PlaqueRouter from "./pages/PlaqueRouter";
 import EditTribute from "./pages/EditTribute";
+import About from "./pages/About";
+import Faq from "./pages/Faq";
+import Resources from "./pages/Resources";
+import WritingMeaningfulTribute from "./pages/WritingMeaningfulTribute";
+import InvitingFamilyContribute from "./pages/InvitingFamilyContribute";
+import PlanningGroundsCareGuide from "./pages/PlanningGroundsCareGuide";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import SiteFooter from "./components/SiteFooter";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <div className="pointer-events-none fixed left-4 top-4 z-50 sm:left-6 sm:top-5">
+        <Link
+          to="/"
+          className="pointer-events-auto text-sm font-semibold uppercase tracking-[0.18em] text-[#43124a] drop-shadow-[0_1px_1px_rgba(255,255,255,0.7)] transition hover:text-[#340d3a]"
+          aria-label="EverTrace home"
+        >
+          EverTrace
+        </Link>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<StartTribute />} />
@@ -40,6 +60,39 @@ export default function App() {
         <Route path="/checkout/:type" element={<Checkout />} />
         <Route path="/preserve/:tributeId" element={<PreservePage />} />
         <Route path="/example" element={<ExampleTribute />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/resources" element={<Resources />} />
+        <Route
+          path="/resources/writing-a-meaningful-tribute"
+          element={<WritingMeaningfulTribute />}
+        />
+        <Route
+          path="/writing-a-meaningful-triubte"
+          element={<Navigate to="/resources/writing-a-meaningful-tribute" replace />}
+        />
+        <Route
+          path="/resources/inviting-family-to-contribute"
+          element={<InvitingFamilyContribute />}
+        />
+        <Route
+          path="/resources/planning-ongoing-grounds-care"
+          element={<PlanningGroundsCareGuide />}
+        />
+        <Route
+          path="/writing-a-meaningful-tribute"
+          element={<Navigate to="/resources/writing-a-meaningful-tribute" replace />}
+        />
+        <Route
+          path="/inviting-family-to-contribute"
+          element={<Navigate to="/resources/inviting-family-to-contribute" replace />}
+        />
+        <Route
+          path="/planning-ongoing-grounds-care"
+          element={<Navigate to="/resources/planning-ongoing-grounds-care" replace />}
+        />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
 
         {/* This still uses tributeId (correct for post-creation flow) */}
         <Route path="/published/:tributeId" element={<PublishSuccess />} />
@@ -52,6 +105,8 @@ export default function App() {
         <Route path="/plaque/:tributeId" element={<Navigate to="/checkout/stories" replace />} />
         <Route path="/edit/:tributeId" element={<EditTribute />} />
       </Routes>
-    </BrowserRouter>
+      <SiteFooter />
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }

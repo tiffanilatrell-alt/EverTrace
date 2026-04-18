@@ -14,6 +14,7 @@ export async function createTribute(payload) {
   const docRef = await addDoc(tributesRef, {
     name: payload.name,
     relationship: payload.relationship,
+    relationshipDetail: payload.relationshipDetail ?? "",
     message: payload.message,
     creatorName: payload.creatorName,
     email: payload.email,
@@ -26,6 +27,7 @@ export async function createTribute(payload) {
     highlights: payload.highlights ?? [],
     theme: payload.theme ?? "light",
     // Ownership fields
+    ownerName: payload.ownerName ?? payload.creatorName ?? "",
     ownerEmail: payload.ownerEmail ?? payload.email ?? "",
     candleCount: 0,
     primaryPhotoId: payload.primaryPhotoId ?? "",

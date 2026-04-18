@@ -25,9 +25,9 @@ const EMOJIS = [
 ];
 
 export default function PhotoGallery({ photos = [], onReact, reactionsEnabled = true }) {
-  if (!Array.isArray(photos) || photos.length === 0) return null;
-
   const [localReactions, setLocalReactions] = useState({});
+
+  if (!Array.isArray(photos) || photos.length === 0) return null;
 
   function handleReact(photoId, type) {
     setLocalReactions((prev) => ({

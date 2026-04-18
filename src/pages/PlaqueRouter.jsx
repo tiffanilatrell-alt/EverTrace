@@ -3,6 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseClient";
 
+const RESERVED_SLUG_REDIRECTS = {
+  "writing-a-meaningful-tribute": "/resources/writing-a-meaningful-tribute",
+  "writing-a-meaningful-triubte": "/resources/writing-a-meaningful-tribute",
+  "inviting-family-to-contribute": "/resources/inviting-family-to-contribute",
+  "planning-ongoing-grounds-care": "/resources/planning-ongoing-grounds-care",
+};
+
 export default function PlaqueRouter() {
   const { plaqueId } = useParams();
   const navigate = useNavigate();
@@ -16,6 +23,11 @@ export default function PlaqueRouter() {
         if (!plaqueId) {
           setStatus("error");
           setErrorMessage("Invalid plaque link.");
+          return;
+        }
+
+        if (RESERVED_SLUG_REDIRECTS[plaqueId]) {
+          navigate(RESERVED_SLUG_REDIRECTS[plaqueId], { replace: true });
           return;
         }
 

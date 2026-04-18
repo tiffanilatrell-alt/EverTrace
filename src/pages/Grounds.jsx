@@ -1,7 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { logGroundsEvent } from "../lib/groundsEvents";
 
 export default function Grounds() {
   const navigate = useNavigate();
+
+  function handleScheduleVisitClick() {
+    void logGroundsEvent("grounds_schedule_visit_click", {
+      sourcePage: "/grounds",
+      targetRoute: "/checkout/grounds",
+    });
+    navigate("/checkout/grounds");
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
@@ -88,7 +97,7 @@ export default function Grounds() {
             Schedule a visit when you need it
           </h3>
           <button
-            onClick={() => navigate("/checkout/grounds")}
+            onClick={handleScheduleVisitClick}
             className="mt-8 inline-flex rounded-xl bg-slate-900 px-8 py-4 text-xl font-semibold text-white transition hover:bg-slate-800"
           >
             Schedule a Visit

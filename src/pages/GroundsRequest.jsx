@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebaseClient";
+import { logGroundsEvent } from "../lib/groundsEvents";
 
 export default function GroundsRequest() {
   const navigate = useNavigate();
@@ -18,6 +19,12 @@ export default function GroundsRequest() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    void logGroundsEvent("grounds_request_page_view", {
+      sourcePage: "/grounds/request",
+    });
+  }, []);
 
   function updateField(key, value) {
     setForm((prev) => ({ ...prev, [key]: value }));

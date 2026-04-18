@@ -1,9 +1,6 @@
 
-import { doc, updateDoc, increment } from "firebase/firestore";
-import { db } from "../firebaseClient";
-import { useEffect, useMemo, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import MemoryForm from "../components/MemoryForm";
 import { addMemory, getMemories } from "../lib/memories";
 import { getTributeById } from "../lib/tribute";
@@ -11,8 +8,6 @@ import { uploadMemoryPhoto } from "../lib/photoUpload";
 import PhotoGallery from "../components/PhotoCarousel";
 import { getPhotos, incrementPhotoReaction } from "../lib/photos";
 import { updateTribute } from "../lib/tribute";
-import plaqueBoxImage from "../assets/plaque-box.jpg";
-import { auth } from "../firebaseClient";
 
 // Capitalize and clean up the category stem for display
 function capitalizeStem(stem) {
@@ -22,7 +17,6 @@ function capitalizeStem(stem) {
 }
 
 function TimelineSidebar({ tribute }) {
-  const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newEvent, setNewEvent] = useState({ year: '', label: '' });
   const [eventError, setEventError] = useState('');
@@ -33,7 +27,6 @@ function TimelineSidebar({ tribute }) {
     ? tribute.timelineEvents.filter(e => e?.year && e?.label)
     : [];
   const [localEvents, setLocalEvents] = useState(initialExtraEvents);
-  const [saving, setSaving] = useState(false);
   const events = [...autoEvents, ...localEvents].sort((a, b) => Number(a.year) - Number(b.year));
   function handleOpenModal() {
     setShowModal(true);
@@ -61,7 +54,6 @@ function TimelineSidebar({ tribute }) {
       setEventError('Year must be a number.');
       return;
     }
-    setSaving(true);
     try {
       // Save to Firestore
       const updatedEvents = [...localEvents, { year: newEvent.year, label: newEvent.label }];
@@ -69,10 +61,8 @@ function TimelineSidebar({ tribute }) {
       setLocalEvents(updatedEvents);
       setShowModal(false);
       setEventError('');
-    } catch (err) {
+    } catch {
       setEventError('Failed to save event. Please try again.');
-    } finally {
-      setSaving(false);
     }
   }
 
@@ -256,7 +246,7 @@ function TributePage() {
         } else {
           setTribute(data);
         }
-      } catch (e) {
+      } catch {
         setError("Failed to load tribute.");
       } finally {
         setLoading(false);
@@ -272,7 +262,7 @@ function TributePage() {
       try {
         const data = await getPhotos(tributeId);
         setPhotos(data);
-      } catch (e) {
+      } catch {
         setPhotos([]);
       }
     }
@@ -286,7 +276,7 @@ function TributePage() {
       try {
         const data = await getMemories(tributeId);
         setMemories(data);
-      } catch (e) {
+      } catch {
         // ignore for now
       }
     }
@@ -316,7 +306,6 @@ function TributePage() {
   const years = tribute?.birthYear || tribute?.passingYear
     ? `${tribute?.birthYear || "—"} – ${tribute?.passingYear || "—"}`
     : "";
-  const relationship = tribute?.relationship || "";
   const message = tribute?.memoryText || tribute?.message || "";
   const photosArr = Array.isArray(photos) && photos.length > 0 ? photos : (Array.isArray(tribute?.photos) ? tribute.photos.map(url => ({ url })) : []);
   const primaryPhotoUrl = tribute?.primaryPhotoUrl || (photosArr.length > 0 ? (photosArr[0].url || photosArr[0]) : "");
@@ -479,7 +468,7 @@ function TributePage() {
                   <div className="bg-white rounded-2xl p-6 shadow-xl max-w-md w-full">
                     <MemoryForm
                       honoreeName={tributeName}
-                      onSubmit={handleAddMemory}
+                      onSubmit={handleMemorySubmit}
                       onCancel={() => setShowMemoryForm(false)}
                       isSaving={isSavingMemory}
                     />
@@ -507,7 +496,7 @@ function TributePage() {
                         // Refresh photos after reaction
                         const updated = await getPhotos(tributeId);
                         setPhotos(updated);
-                      } catch (e) {
+                      } catch {
                         // Optionally show error
                       }
                     }
@@ -536,35 +525,3 @@ function TributePage() {
 }
 
 export default TributePage;
-
-function formatHighlightLabel(category = "") {
-  const map = {
-    Hometown: "Hometown",
-    Nickname: "Nickname",
-    Occupation: "Occupation",
-    "Favorite Saying": "Favorite Saying",
-    "Favorite Hobby": "Favorite Hobby",
-    School: "School",
-    Church: "Church",
-    "Military Service": "Military Service",
-    Custom: "Detail",
-    favorite_recipe: "Favorite Recipe",
-    favorite_food: "Favorite Food",
-    favorite_song: "Favorite Song",
-    signature_saying: "Signature Saying",
-    favorite_place: "Favorite Place",
-    favorite_hobby: "Favorite Hobby",
-    life_lesson: "Life Lesson",
-    nickname: "Nickname",
-  };
-
-
-
-// Capitalize and clean up the category stem for display
-function capitalizeStem(stem) {
-  if (!stem) return '';
-  // Remove leading/trailing whitespace, capitalize first letter, keep rest as is
-  return stem.charAt(0).toUpperCase() + stem.slice(1);
-}
-  return map[category] || category || "Detail";
-}

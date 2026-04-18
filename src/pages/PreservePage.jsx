@@ -173,7 +173,7 @@ export default function PreservePage() {
           setTribute(data);
           setLoadFailed(false);
         }
-      } catch (error) {
+      } catch {
         if (!isMounted) return;
         setTribute(null);
         setLoadFailed(true);

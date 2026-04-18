@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, updateDoc, increment } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, updateDoc, increment } from "firebase/firestore";
 import { db } from "../../firebaseClient";
 
 // Add a photo to a tribute's photos subcollection

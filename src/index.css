@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
 
 .bg-evertrace-historic {
 	background-color: #f3efe7;
@@ -6,4 +7,69 @@
 		radial-gradient(circle at 15% 20%, rgba(177, 146, 96, 0.14), transparent 45%),
 		radial-gradient(circle at 85% 10%, rgba(120, 94, 58, 0.12), transparent 40%),
 		linear-gradient(180deg, #f6f2ea 0%, #ece4d6 100%);
+}
+
+.hero-overlay {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+		ellipse at center,
+		rgba(255, 255, 255, 0.75) 0%,
+		rgba(255, 255, 255, 0.55) 35%,
+		rgba(255, 255, 255, 0.25) 60%,
+		rgba(255, 255, 255, 0.05) 100%
+	);
+	backdrop-filter: blur(2px);
+}
+
+:root {
+	--evertrace-purple: #43124a;
+	--evertrace-purple-dark: #340d3a;
+	--evertrace-purple-soft: #f8f1fa;
+	--evertrace-purple-border: #d8b8df;
+}
+
+/* Normalize primary action buttons to brand purple across pages. */
+button[class*="bg-emerald-700"],
+a[class*="bg-emerald-700"],
+button[class*="bg-slate-900"],
+a[class*="bg-slate-900"] {
+	background-color: var(--evertrace-purple) !important;
+	color: #fff !important;
+}
+
+button[class*="hover:bg-emerald-800"]:hover,
+a[class*="hover:bg-emerald-800"]:hover,
+button[class*="hover:bg-slate-800"]:hover,
+a[class*="hover:bg-slate-800"]:hover {
+	background-color: var(--evertrace-purple-dark) !important;
+}
+
+/* Normalize outlined action buttons that currently use emerald accents. */
+button[class*="border-emerald-700"][class*="text-emerald-700"],
+a[class*="border-emerald-700"][class*="text-emerald-700"] {
+	border-color: var(--evertrace-purple) !important;
+	color: var(--evertrace-purple) !important;
+	background-color: #fff !important;
+}
+
+button[class*="border-emerald-700"][class*="text-emerald-700"]:hover,
+a[class*="border-emerald-700"][class*="text-emerald-700"]:hover {
+	background-color: var(--evertrace-purple-soft) !important;
+}
+
+button[class*="border-emerald-200"][class*="bg-emerald-50"],
+a[class*="border-emerald-200"][class*="bg-emerald-50"],
+button[class*="border-emerald-700"][class*="bg-emerald-50"],
+a[class*="border-emerald-700"][class*="bg-emerald-50"] {
+	border-color: var(--evertrace-purple-border) !important;
+	background-color: var(--evertrace-purple-soft) !important;
+	color: var(--evertrace-purple) !important;
+}
+
+button[class*="border-emerald-200"][class*="bg-emerald-50"]:hover,
+a[class*="border-emerald-200"][class*="bg-emerald-50"]:hover,
+button[class*="border-emerald-700"][class*="bg-emerald-50"]:hover,
+a[class*="border-emerald-700"][class*="bg-emerald-50"]:hover {
+	background-color: #f3e8f7 !important;
 }

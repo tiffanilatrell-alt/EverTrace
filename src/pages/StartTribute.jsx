@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTribute, updateTribute } from "../lib/tribute";
 import { uploadTributePhotos } from "../lib/photoUpload";
@@ -13,6 +13,13 @@ const RELATIONSHIPS = [
   "Friend",
   "Cousin",
   "Other",
+];
+
+const ROTATING_PLACEHOLDERS = [
+  "What is one thing you'll always remember?",
+  "What did they make people feel?",
+  "What is a story that feels like them?",
+  "What would you want someone meeting them to know?",
 ];
 
 function getRelationshipDetailOptions(selectedRelationship) {
@@ -30,13 +37,6 @@ function getRelationshipDetailOptions(selectedRelationship) {
   }
 }
 
-function buildStarter(name, relationship) {
-  const subject = name || "your loved one";
-  const relation = relationship ? relationship.toLowerCase() : "loved one";
-
-  return `${subject} was a deeply loved ${relation} whose presence brought warmth, comfort, and meaning to everyone around them. Their memory lives on in the stories, kindness, and love they shared. This tribute is a place for family and friends to remember them together.`;
-}
-
 export default function StartTribute() {
   const navigate = useNavigate();
 
@@ -48,7 +48,8 @@ export default function StartTribute() {
   const [primaryPhotoIndex, setPrimaryPhotoIndex] = useState(0);
   const [captions, setCaptions] = useState({});
   const [captionOpen, setCaptionOpen] = useState({});
-  const [memoryText, setMemoryText] = useState("");
+  const [tributeText, setTributeText] = useState("");
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [highlights, setHighlights] = useState([]);
   const [creatorName, setCreatorName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,6 +57,8 @@ export default function StartTribute() {
   const [allowPhotoReactions, setAllowPhotoReactions] = useState(true);
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishError, setPublishError] = useState("");
+  const [isGeneratingTributeText, setIsGeneratingTributeText] = useState(false);
+  const [tributeAssistError, setTributeAssistError] = useState("");
 
   const photoPreviews = useMemo(
     () => photos.map((file) => ({ file, url: URL.createObjectURL(file) })),
@@ -63,6 +66,28 @@ export default function StartTribute() {
   );
 
   const canPublish = creatorName.trim() !== "" && email.trim() !== "";
+  const personDisplayName = name?.trim() || "them";
+
+  useEffect(() => {
+    if (tributeText.trim().length > 0) return;
+
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % ROTATING_PLACEHOLDERS.length);
+    }, 2600);
+
+    return () => clearInterval(interval);
+  }, [tributeText]);
+
+  const activePlaceholder = ROTATING_PLACEHOLDERS[placeholderIndex];
+
+  const encouragementMessage = useMemo(() => {
+    const wordCount = tributeText.trim().split(/\s+/).filter(Boolean).length;
+
+    if (wordCount >= 25) return "That's a beautiful start.";
+    if (wordCount >= 10) return "You're capturing something meaningful.";
+    if (wordCount >= 1) return "Keep going - even a few words are enough to begin.";
+    return "";
+  }, [tributeText]);
 
   function goNext() {
     if (step === 1 && !name.trim()) return;
@@ -114,8 +139,59 @@ export default function StartTribute() {
     });
   }
 
-  function generateTributeStarter() {
-    setMemoryText((prev) => (prev.trim() ? prev : buildStarter(name, relationship)));
+  function handlePromptClick(prompt) {
+    setTributeText((current) => {
+      if (current.trim()) {
+        return current.endsWith(" ") ? `${current}${prompt}` : `${current}\n\n${prompt}`;
+      }
+      return prompt;
+    });
+  }
+
+  async function handleHelpMeStart() {
+    if (isGeneratingTributeText) return;
+
+    setTributeAssistError("");
+    const starter = `One thing I'll always remember about ${personDisplayName} is `;
+
+    try {
+      setIsGeneratingTributeText(true);
+
+      const response = await fetch("/generate-tribute-text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          relationship,
+          relationshipDetail: relationshipDetail.trim(),
+          existingText: tributeText,
+          highlights,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || typeof data?.text !== "string" || !data.text.trim()) {
+        throw new Error(data?.error || "Unable to generate tribute text.");
+      }
+
+      setTributeText((current) => {
+        const nextSuggestion = data.text.trim();
+        if (!current.trim()) return nextSuggestion;
+        return `${current.trim()}\n\n---\n\n${nextSuggestion}`;
+      });
+    } catch (error) {
+      console.error("AI writing help unavailable:", error);
+      setTributeAssistError("AI writing help is unavailable right now. We added a starter line instead.");
+      setTributeText((current) => {
+        if (!current.trim()) return starter;
+        return `${current.trim()}\n\n---\n\n${starter}`;
+      });
+    } finally {
+      setIsGeneratingTributeText(false);
+    }
   }
 
   async function publishTribute() {
@@ -129,7 +205,7 @@ export default function StartTribute() {
         name: name.trim(),
         relationship,
         relationshipDetail: relationshipDetail.trim(),
-        message: memoryText.trim(),
+        message: tributeText.trim(),
         creatorName: creatorName.trim(),
         email: email.trim(),
         ownerName: creatorName.trim(),
@@ -171,8 +247,8 @@ export default function StartTribute() {
     photoPreviews.length > 0
       ? photoPreviews[Math.min(primaryPhotoIndex, photoPreviews.length - 1)]?.url
       : "/Spring-peace.jpg";
-  const tributeExcerpt = memoryText.trim()
-    ? memoryText
+  const tributeExcerpt = tributeText.trim()
+    ? tributeText
     : `${name || "Your loved one"} will always be remembered with love.`;
 
   return (
@@ -185,7 +261,13 @@ export default function StartTribute() {
           {step === 1 ? "<- Back to Home" : "<- Back"}
         </button>
 
-        <div className="overflow-hidden rounded-[2rem] bg-white shadow-xl">
+        <div
+          className="overflow-hidden rounded-[2rem] shadow-xl"
+          style={{
+            background:
+              "radial-gradient(120% 140% at 8% 6%, rgba(139, 92, 246, 0.10) 0%, rgba(255, 255, 255, 0.96) 36%, rgba(110, 231, 183, 0.14) 100%)",
+          }}
+        >
           <div className="border-b border-stone-200 px-8 py-6">
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-emerald-700">
               Create a Tribute
@@ -196,21 +278,24 @@ export default function StartTribute() {
               <div className={`h-2 w-16 rounded-full ${step >= 3 ? "bg-emerald-700" : "bg-stone-200"}`} />
               <div className={`h-2 w-16 rounded-full ${step >= 4 ? "bg-emerald-700" : "bg-stone-200"}`} />
             </div>
-            <p className="mt-3 text-sm text-stone-500">Step {step} of 4</p>
+            <p className="mt-3 text-sm text-stone-500">Step {step} of 4 - Getting started</p>
           </div>
 
           {step === 1 && (
             <div className="px-8 py-10 md:px-10">
               <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
-                Who are we honoring?
+                Let's begin with their name
               </h1>
+              <p className="mt-3 text-base font-medium text-stone-700">
+                A name is where every story begins.
+              </p>
               <p className="mt-4 max-w-2xl text-lg leading-8 text-stone-600">
-                Start with a few details. You can add photos, stories, and updates as this tribute grows.
+                You don't need everything right now. Just start with what you know - you can always come back and add more.
               </p>
 
               <div className="mt-10 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-stone-700">Their name</label>
+                  <label className="block text-sm font-medium text-stone-700">What is their name?</label>
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -220,7 +305,7 @@ export default function StartTribute() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-stone-700">Their relationship to you</label>
+                  <label className="block text-sm font-medium text-stone-700">How did you know them?</label>
                   <select
                     value={relationship}
                     onChange={(e) => {
@@ -239,7 +324,7 @@ export default function StartTribute() {
 
                 {getRelationshipDetailOptions(relationship).length > 0 && (
                   <div>
-                    <label className="block text-sm font-medium text-stone-700">More specifically</label>
+                    <label className="block text-sm font-medium text-stone-700">If you'd like, you can be more specific</label>
                     <select
                       value={relationshipDetail}
                       onChange={(e) => setRelationshipDetail(e.target.value)}
@@ -254,6 +339,19 @@ export default function StartTribute() {
                     </select>
                   </div>
                 )}
+              </div>
+
+              <div className="mt-8 rounded-[1.5rem] border border-white/70 bg-white/60 px-6 py-6 shadow-sm backdrop-blur-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Tribute Preview</p>
+                <h2
+                  className="mt-3 text-3xl leading-tight text-slate-800/85 md:text-4xl"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  {name.trim() || "Jean E. White"}
+                </h2>
+                <p className="mt-2 text-lg font-medium text-stone-600/90">
+                  {relationshipDetail || relationship || "Mother"}
+                </p>
               </div>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -324,19 +422,19 @@ export default function StartTribute() {
                             <button
                               type="button"
                               onClick={() => setPrimaryPhotoIndex(index)}
-                              className="rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+                              className="rounded-full border border-[#d8b8df] bg-[#f8f1fa] px-4 py-2 text-sm font-semibold text-[#43124a] transition hover:bg-[#f3e8f7]"
                             >
                               Set as Primary
                             </button>
                           ) : (
-                            <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-800">
+                            <span className="rounded-full border border-[#d8b8df] bg-[#f8f1fa] px-3 py-1.5 text-sm font-medium text-[#43124a]">
                               Primary Photo
                             </span>
                           )}
                           <button
                             type="button"
                             onClick={() => removePhoto(index)}
-                            className="rounded-full border border-rose-200 bg-white px-3 py-1.5 text-sm font-medium text-rose-700 transition hover:bg-rose-50"
+                            className="rounded-full border border-[#d8b8df] bg-[#f8f1fa] px-3 py-1.5 text-sm font-medium text-[#43124a] transition hover:bg-[#f3e8f7]"
                           >
                             Remove
                           </button>
@@ -346,6 +444,21 @@ export default function StartTribute() {
                   </div>
                 </div>
               )}
+
+              <label className="mt-8 flex items-start gap-3 rounded-[1.5rem] border border-stone-200 bg-white p-4">
+                <input
+                  type="checkbox"
+                  checked={allowPhotoReactions}
+                  onChange={(e) => setAllowPhotoReactions(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-stone-300 text-emerald-700 focus:ring-emerald-600"
+                />
+                <div>
+                  <p className="text-sm font-medium text-slate-900">Allow reactions on photos</p>
+                  <p className="mt-1 text-sm leading-6 text-stone-600">
+                    Let visitors react with candles, flowers, and doves on tribute photos.
+                  </p>
+                </div>
+              </label>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <button
@@ -376,18 +489,22 @@ export default function StartTribute() {
               <div className="mt-8">
                 <label className="block text-sm font-medium text-stone-700">Tribute text</label>
                 <textarea
-                  value={memoryText}
-                  onChange={(e) => setMemoryText(e.target.value)}
-                  placeholder="Write a few words about who they were, what they meant to you, or what you want others to remember."
+                  value={tributeText}
+                  onChange={(e) => setTributeText(e.target.value)}
+                  placeholder={activePlaceholder}
                   rows={8}
                   className="mt-2 w-full rounded-[1.5rem] border border-stone-300 px-4 py-4 text-base leading-7 text-slate-900 outline-none transition focus:border-emerald-700"
                 />
+                {encouragementMessage && (
+                  <p className="mt-3 text-sm font-medium text-stone-600">{encouragementMessage}</p>
+                )}
               </div>
 
               <div className="mt-5">
                 <button
                   type="button"
-                  onClick={generateTributeStarter}
+                  onClick={handleHelpMeStart}
+                  disabled={isGeneratingTributeText}
                   className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-100"
                 >
                   <svg viewBox="0 0 24 24" className="mr-2 h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -396,7 +513,27 @@ export default function StartTribute() {
                     <path d="M14.5 4.5l.8-1.8.8 1.8 1.8.8-1.8.8-.8 1.8-.8-1.8-1.8-.8z" strokeLinejoin="round" />
                     <path d="M19 9l.5-1 .5 1 1 .5-1 .5-.5 1-.5-1-1-.5z" strokeLinejoin="round" />
                   </svg>
-                  Help me write this
+                  {isGeneratingTributeText ? "Writing..." : "Help me write this"}
+                </button>
+                {tributeAssistError && (
+                  <p className="mt-3 text-sm text-rose-700">{tributeAssistError}</p>
+                )}
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => handlePromptClick(`A moment I keep coming back to with ${personDisplayName} is `)}
+                  className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-sm text-stone-700 transition hover:bg-emerald-50"
+                >
+                  Add a memory prompt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePromptClick(`${personDisplayName} was the kind of person who `)}
+                  className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-sm text-stone-700 transition hover:bg-emerald-50"
+                >
+                  Add character prompt
                 </button>
               </div>
 
@@ -484,21 +621,6 @@ export default function StartTribute() {
                       We use this email so you can return to your tribute, keep editing it, and invite family later.
                     </p>
                   </div>
-
-                  <label className="flex items-start gap-3 rounded-[1.5rem] border border-stone-200 bg-white p-4">
-                    <input
-                      type="checkbox"
-                      checked={allowPhotoReactions}
-                      onChange={(e) => setAllowPhotoReactions(e.target.checked)}
-                      className="mt-1 h-4 w-4 rounded border-stone-300 text-emerald-700 focus:ring-emerald-600"
-                    />
-                    <div>
-                      <p className="text-sm font-medium text-slate-900">Allow reactions on photos</p>
-                      <p className="mt-1 text-sm leading-6 text-stone-600">
-                        Let visitors react with candles, flowers, and doves on tribute photos.
-                      </p>
-                    </div>
-                  </label>
 
                   <div className="flex flex-col gap-4">
                     <button

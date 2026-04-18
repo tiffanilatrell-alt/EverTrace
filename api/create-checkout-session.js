@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import process from "node:process";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 

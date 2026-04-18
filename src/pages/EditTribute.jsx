@@ -1,6 +1,6 @@
 
-import { useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { getTributeById, updateTribute } from "../lib/tribute";
 
 function getRelationshipDetailOptions(selectedRelationship) {
@@ -20,7 +20,6 @@ function getRelationshipDetailOptions(selectedRelationship) {
 
 export default function EditTribute() {
   const { tributeId } = useParams();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   // Form state
@@ -65,7 +64,7 @@ export default function EditTribute() {
         setVisibility(tribute.visibility || "public");
         setTheme(tribute.theme || "light");
         setHighlights(Array.isArray(tribute.highlights) ? tribute.highlights : []);
-      } catch (e) {
+      } catch {
         setError("Failed to load tribute.");
       } finally {
         setLoading(false);
@@ -112,7 +111,7 @@ export default function EditTribute() {
         theme,
       });
       navigate(`/tribute/${tributeId}`);
-    } catch (err) {
+    } catch {
       setError("Failed to save changes. Please try again.");
     } finally {
       setSaving(false);
