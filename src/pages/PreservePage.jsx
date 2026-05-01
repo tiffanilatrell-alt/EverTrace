@@ -8,7 +8,7 @@ function formatYears(birthYear, passingYear) {
   return `${birthYear || "-"} - ${passingYear || "-"}`;
 }
 
-function getPrimaryPhoto(tribute) {
+      async function loadTribute() {
   if (!tribute) return "";
   if (tribute.primaryPhotoUrl) return tribute.primaryPhotoUrl;
   if (Array.isArray(tribute.photoUrls) && tribute.photoUrls.length > 0) {
@@ -116,7 +116,12 @@ function DecisionCard({
       <button
         type="button"
         onClick={onClick}
-        className={[
+                <img
+                  src="/qrCodeInBox.jpg"
+                  alt="QR plaque preview"
+                  className="mx-auto h-40 w-auto object-contain"
+                  style={{ background: '#f8f1fa' }}
+                />
           "mt-7 inline-flex rounded-xl px-5 py-3 text-sm font-medium transition",
           featured
             ? "bg-slate-900 text-white hover:bg-slate-800"
