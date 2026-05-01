@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Home from "./pages/Home";
+import ScrollToTop from "./components/ScrollToTop";
 import StartTribute from "./pages/StartTribute";
 import ExampleTribute from "./pages/ExampleTribute";
 import Grounds from "./pages/Grounds";
@@ -22,20 +23,13 @@ import PlanningGroundsCareGuide from "./pages/PlanningGroundsCareGuide";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import SiteFooter from "./components/SiteFooter";
+import Account from "./pages/Account";
 
 export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <div className="pointer-events-none fixed left-4 top-4 z-50 sm:left-6 sm:top-5">
-        <Link
-          to="/"
-          className="pointer-events-auto text-sm font-semibold uppercase tracking-[0.18em] text-[#43124a] drop-shadow-[0_1px_1px_rgba(255,255,255,0.7)] transition hover:text-[#340d3a]"
-          aria-label="EverTrace home"
-        >
-          EverTrace
-        </Link>
-      </div>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<StartTribute />} />
@@ -57,6 +51,7 @@ export default function App() {
             </main>
           }
         />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkout/:type" element={<Checkout />} />
         <Route path="/preserve/:tributeId" element={<PreservePage />} />
         <Route path="/example" element={<ExampleTribute />} />
@@ -93,6 +88,7 @@ export default function App() {
         />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/account" element={<Account />} />
 
         {/* This still uses tributeId (correct for post-creation flow) */}
         <Route path="/published/:tributeId" element={<PublishSuccess />} />

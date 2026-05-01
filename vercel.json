@@ -22,11 +22,14 @@
     }
   ],
   "rewrites": [
+    { "source": "/@vite/:path*", "destination": "/@vite/:path*" },
+    { "source": "/@react-refresh", "destination": "/@react-refresh" },
+    { "source": "/src/:path*", "destination": "/src/:path*" },
     { "source": "/resources/writing-a-meaningful-tribute", "destination": "/api/og?path=/resources/writing-a-meaningful-tribute" },
     { "source": "/resources/inviting-family-to-contribute", "destination": "/api/og?path=/resources/inviting-family-to-contribute" },
     { "source": "/resources/planning-ongoing-grounds-care", "destination": "/api/og?path=/resources/planning-ongoing-grounds-care" },
     { "source": "/create-checkout-session", "destination": "/api/create-checkout-session" },
     { "source": "/generate-tribute-text", "destination": "/api/generate-tribute-text" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!@vite/|@react-refresh$|src/|node_modules/|.*\\..*).*)", "destination": "/index.html" }
   ]
 }

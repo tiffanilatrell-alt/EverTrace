@@ -12,6 +12,7 @@ const RELATIONSHIPS = [
   "Partner",
   "Friend",
   "Cousin",
+  "Pet",
   "Other",
 ];
 
@@ -20,6 +21,13 @@ const ROTATING_PLACEHOLDERS = [
   "What did they make people feel?",
   "What is a story that feels like them?",
   "What would you want someone meeting them to know?",
+];
+
+const STORY_PROMPTS = [
+  "What is one thing you'll always remember?",
+  "What did they make people feel?",
+  "What is a moment that feels like them?",
+  "What would you want others to know about them?",
 ];
 
 function getRelationshipDetailOptions(selectedRelationship) {
@@ -41,6 +49,10 @@ export default function StartTribute() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
+    // Scroll to top on step change
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }, [step]);
   const [name, setName] = useState("");
   const [relationship, setRelationship] = useState("Parent");
   const [relationshipDetail, setRelationshipDetail] = useState("");
@@ -67,6 +79,7 @@ export default function StartTribute() {
 
   const canPublish = creatorName.trim() !== "" && email.trim() !== "";
   const personDisplayName = name?.trim() || "them";
+  const relationshipSpecific = relationshipDetail;
 
   useEffect(() => {
     if (tributeText.trim().length > 0) return;
@@ -252,8 +265,10 @@ export default function StartTribute() {
     : `${name || "Your loved one"} will always be remembered with love.`;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-evertrace-historic">
-      <div className="mx-auto w-full max-w-4xl">
+    <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-evertrace-historic">
+      {/* Soft background image overlay */}
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[url('/Spring-peace.jpg')] bg-cover bg-center opacity-10" />
+      <div className="relative z-10 mx-auto w-full max-w-4xl">
         <button
           onClick={goBackStep}
           className="mb-8 text-sm font-medium text-stone-600 transition hover:text-stone-900"
@@ -300,7 +315,7 @@ export default function StartTribute() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Jean E. White"
-                    className="mt-2 w-full rounded-2xl border border-stone-300 px-4 py-4 text-lg text-slate-900 outline-none transition focus:border-emerald-700"
+                    className="w-full text-xl py-4 px-5 rounded-xl border border-stone-300 bg-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 transition"
                   />
                 </div>
 
@@ -312,7 +327,7 @@ export default function StartTribute() {
                       setRelationship(e.target.value);
                       setRelationshipDetail("");
                     }}
-                    className="mt-2 w-full rounded-2xl border border-stone-300 px-4 py-4 text-lg text-slate-900 outline-none transition focus:border-emerald-700"
+                    className="w-full text-xl py-4 px-5 rounded-xl border border-stone-300 bg-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 transition"
                   >
                     {RELATIONSHIPS.map((item) => (
                       <option key={item} value={item}>
@@ -328,7 +343,7 @@ export default function StartTribute() {
                     <select
                       value={relationshipDetail}
                       onChange={(e) => setRelationshipDetail(e.target.value)}
-                      className="mt-2 w-full rounded-2xl border border-stone-300 px-4 py-4 text-lg text-slate-900 outline-none transition focus:border-emerald-700"
+                      className="w-full text-xl py-4 px-5 rounded-xl border border-stone-300 bg-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 transition"
                     >
                       <option value="">Select one</option>
                       {getRelationshipDetailOptions(relationship).map((option) => (
@@ -434,7 +449,7 @@ export default function StartTribute() {
                           <button
                             type="button"
                             onClick={() => removePhoto(index)}
-                            className="rounded-full border border-[#d8b8df] bg-[#f8f1fa] px-3 py-1.5 text-sm font-medium text-[#43124a] transition hover:bg-[#f3e8f7]"
+                            className="rounded-full border border-rose-300 bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-700 transition hover:bg-rose-100"
                           >
                             Remove
                           </button>
@@ -479,62 +494,122 @@ export default function StartTribute() {
 
           {step === 3 && (
             <div className="px-8 py-10 md:px-10">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
-                Add memories for {name || "your loved one"}
-              </h1>
-              <p className="mt-4 max-w-2xl text-lg leading-8 text-stone-600">
-                Share what made them special. A few loving sentences are enough to begin.
-              </p>
+              <div className="rounded-[28px] border border-stone-200 bg-white/88 shadow-[0_12px_40px_rgba(58,35,71,0.06)] backdrop-blur-sm">
+                <div className="border-b border-stone-200 px-6 py-5 md:px-10">
+                  <div className="text-sm text-stone-500">Step 3 of 4 - Add meaning</div>
+                </div>
 
-              <div className="mt-8">
-                <label className="block text-sm font-medium text-stone-700">Tribute text</label>
-                <textarea
-                  value={tributeText}
-                  onChange={(e) => setTributeText(e.target.value)}
-                  placeholder={activePlaceholder}
-                  rows={8}
-                  className="mt-2 w-full rounded-[1.5rem] border border-stone-300 px-4 py-4 text-base leading-7 text-slate-900 outline-none transition focus:border-emerald-700"
-                />
-                {encouragementMessage && (
-                  <p className="mt-3 text-sm font-medium text-stone-600">{encouragementMessage}</p>
-                )}
-              </div>
+                <div className="px-6 py-8 md:px-10 md:py-10">
+                  <div className="max-w-3xl">
+                    <p className="mb-3 text-sm font-medium italic text-stone-500">
+                      Take your time. There's no right way to do this.
+                    </p>
 
-              <div className="mt-5">
-                <button
-                  type="button"
-                  onClick={handleHelpMeStart}
-                  disabled={isGeneratingTributeText}
-                  className="inline-flex items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-base font-medium text-emerald-800 transition hover:bg-emerald-100"
-                >
-                  <svg viewBox="0 0 24 24" className="mr-2 h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <path d="M3 21l9-9" strokeLinecap="round" />
-                    <path d="M10 14l3 3" strokeLinecap="round" />
-                    <path d="M14.5 4.5l.8-1.8.8 1.8 1.8.8-1.8.8-.8 1.8-.8-1.8-1.8-.8z" strokeLinejoin="round" />
-                    <path d="M19 9l.5-1 .5 1 1 .5-1 .5-.5 1-.5-1-1-.5z" strokeLinejoin="round" />
-                  </svg>
-                  {isGeneratingTributeText ? "Writing..." : "Help me write this"}
-                </button>
-                {tributeAssistError && (
-                  <p className="mt-3 text-sm text-rose-700">{tributeAssistError}</p>
-                )}
-              </div>
+                    <h2 className="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+                      Start with what you remember most about {personDisplayName}
+                    </h2>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => handlePromptClick(`A moment I keep coming back to with ${personDisplayName} is `)}
-                  className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-sm text-stone-700 transition hover:bg-emerald-50"
-                >
-                  Add a memory prompt
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handlePromptClick(`${personDisplayName} was the kind of person who `)}
-                  className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-sm text-stone-700 transition hover:bg-emerald-50"
-                >
-                  Add character prompt
-                </button>
+                    <p className="mt-4 max-w-2xl text-lg leading-8 text-stone-600">
+                      You don't need the perfect words. Just begin with a sentence or two - you
+                      can always come back and add more.
+                    </p>
+
+                    <div className="mt-8">
+                      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+                        Not sure where to begin?
+                      </p>
+
+                      <div className="flex flex-wrap gap-3">
+                        {STORY_PROMPTS.map((prompt) => (
+                          <button
+                            key={prompt}
+                            type="button"
+                            onClick={() => handlePromptClick(prompt)}
+                            className="rounded-full border border-[#d9c5de] bg-[#faf6fb] px-4 py-2 text-sm font-medium text-[#5a2c63] transition hover:border-[#c6a6ce] hover:bg-[#f6eef8]"
+                          >
+                            {prompt}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-8">
+                      <label
+                        htmlFor="tributeText"
+                        className="mb-3 block text-base font-semibold text-slate-900"
+                      >
+                        What would you like to say?
+                      </label>
+
+                      <textarea
+                        id="tributeText"
+                        value={tributeText}
+                        onChange={(e) => setTributeText(e.target.value)}
+                        placeholder={activePlaceholder}
+                        rows={10}
+                        className="min-h-[280px] w-full rounded-[26px] border border-stone-200 bg-white px-5 py-5 text-lg leading-8 text-slate-900 placeholder:text-stone-400 focus:border-[#8d5a97] focus:outline-none focus:ring-4 focus:ring-[#efe3f3]"
+                      />
+
+                      <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                        <p className="text-sm text-stone-500">
+                          Even a few words can become something meaningful.
+                        </p>
+
+                        <div className="text-sm font-medium text-[#6b3c74]">
+                          {encouragementMessage}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={handleHelpMeStart}
+                        disabled={isGeneratingTributeText}
+                        className="inline-flex items-center gap-2 rounded-2xl border border-[#d9c5de] bg-[#faf6fb] px-5 py-3 text-base font-semibold text-[#5a2c63] transition hover:border-[#c6a6ce] hover:bg-[#f6eef8] disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        <span aria-hidden="true">*</span>
+                        {isGeneratingTributeText ? "Writing..." : "Help me get started"}
+                      </button>
+
+                      <p className="text-sm text-stone-500">
+                        You can edit anything the helper adds.
+                      </p>
+                    </div>
+
+                    {tributeAssistError && (
+                      <p className="mt-3 text-sm text-rose-700">{tributeAssistError}</p>
+                    )}
+
+                    <div className="mt-8 rounded-[24px] border border-stone-200 bg-gradient-to-br from-[#fcf9fd] via-white to-[#f6faf6] p-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                        Tribute preview
+                      </p>
+
+                      <div className="mt-3">
+                        <h3 className="text-2xl font-semibold text-slate-950">
+                          {personDisplayName}
+                        </h3>
+
+                        {relationship && (
+                          <p className="mt-1 text-sm text-stone-500">
+                            {relationshipSpecific?.trim() || relationship}
+                          </p>
+                        )}
+
+                        <div className="mt-4 rounded-2xl bg-white/80 p-4 text-base leading-7 text-stone-700 ring-1 ring-stone-200/70">
+                          {tributeText.trim() ? (
+                            <p>{tributeText}</p>
+                          ) : (
+                            <p className="italic text-stone-400">
+                              Your words will begin to take shape here.
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <MeaningfulDetailsSection highlights={highlights} setHighlights={setHighlights} />
@@ -566,7 +641,7 @@ export default function StartTribute() {
                       value={creatorName}
                       onChange={(e) => setCreatorName(e.target.value)}
                       placeholder="Tiffani"
-                      className="mt-2 w-full rounded-2xl border border-stone-300 px-4 py-4 text-lg text-slate-900 outline-none transition focus:border-emerald-700"
+                      className="w-full text-xl py-4 px-5 rounded-xl border border-stone-300 bg-white/80 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 transition"
                     />
                   </div>
 

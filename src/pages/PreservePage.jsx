@@ -312,33 +312,25 @@ export default function PreservePage() {
         </section>
 
         <section className="mx-auto mt-16 max-w-4xl rounded-2xl border border-stone-200 bg-white px-6 py-10 text-center shadow-sm sm:px-8">
-          <h2 className="font-serif text-2xl text-slate-900 sm:text-3xl">
-            Choose the remembrance that feels right for her
-          </h2>
-
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={goToPlaque}
-              className="inline-flex rounded-xl bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
-              Honor Her With a Plaque
-            </button>
-            <button
-              type="button"
-              onClick={goToTribute}
-              className="inline-flex rounded-xl border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-slate-800 transition hover:bg-stone-50"
-            >
-              Return to Her Tribute
-            </button>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Preserve This Tribute</p>
+          <h2 className="mb-2 font-serif text-2xl font-semibold text-slate-900 sm:text-3xl">Connect it to a lasting plaque</h2>
+          <p className="mb-6 text-base leading-7 text-slate-600">Place this memory somewhere family can visit, scan, and return to. The plaque becomes a physical doorway to the stories held here.</p>
+          <div className="mb-6 flex items-center justify-center">
+            <div className="w-full max-w-xs rounded-xl border border-dashed border-stone-300 bg-stone-50 p-4">
+              <img
+                src="/qrCodeInBox.jpg"
+                alt="QR plaque preview area"
+                className="mx-auto h-40 w-auto object-contain"
+                style={{ background: '#f8f1fa' }}
+              />
+            </div>
           </div>
-
           <button
             type="button"
-            onClick={goToGrounds}
-            className="mt-5 text-sm text-slate-500 underline decoration-stone-300 underline-offset-4 transition hover:text-slate-700"
+            onClick={goToPlaque}
+            className="mb-2 mt-2 inline-flex w-full max-w-xs justify-center rounded-xl border border-stone-300 bg-white px-6 py-3 text-base font-semibold text-slate-900 shadow transition hover:bg-stone-50"
           >
-            Explore Grounds
+            Learn About Plaques
           </button>
         </section>
       </section>

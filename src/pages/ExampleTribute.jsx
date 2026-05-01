@@ -31,15 +31,16 @@ export default function ExampleTribute() {
   ];
 
   const timeline = [
-    { year: "1952", label: "Born", detail: "A new light entered the world." },
+    { year: "1950", label: "Born", detail: "A new light entered the world." },
     { year: "1974", label: "Graduated college", detail: "A proud milestone that shaped her future." },
-    { year: "1978", label: "Married", detail: "Built a life rooted in love and family." },
-    { year: "1982", label: "Became a mother", detail: "Her most cherished role began." },
-    { year: "2024", label: "Passed", detail: "Her love remains in every life she touched." },
+    { year: "1972", label: "Married", detail: "Built a life rooted in love and family." },
+    { year: "1977", label: "First child born", detail: "Her most cherished role began." },
+    { year: "1991", label: "Received Masters degree", detail: "A proud academic achievement." },
+    { year: "2005", label: "Passed", detail: "Her love remains in every life she touched." },
   ];
 
   const thingsSheLoved = [
-    { icon: "🎵", label: "Favorite Song", value: "Amazing Grace" },
+    { icon: "🎵", label: "Favorite Song", value: "Three Times a Lady" },
     { icon: "🍽️", label: "Favorite Meal", value: "Sunday dinner with family" },
     { icon: "🌸", label: "Known For", value: "Warmth, handwritten cards, and making people feel at home" },
   ];
@@ -75,7 +76,7 @@ export default function ExampleTribute() {
                 </h1>
 
                 <p className="mt-4 text-lg text-stone-200 md:text-xl">
-                  1952 — 2024
+                  1950 — 2005
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -96,6 +97,8 @@ export default function ExampleTribute() {
               </div>
             </div>
           </section>
+
+
 
           {/* RITUAL STRIP */}
           <section className="border-b border-stone-200 bg-stone-50/70 px-6 py-5 md:px-10">
@@ -122,6 +125,7 @@ export default function ExampleTribute() {
           <section className="grid gap-10 px-6 py-8 md:grid-cols-[1.3fr_0.7fr] md:px-10 md:py-10">
             {/* LEFT COLUMN */}
             <div className="space-y-10">
+
               {/* STORY */}
               <div className="rounded-[1.75rem] border border-stone-200/70 bg-white p-6 shadow-sm md:p-8">
                 <p className="text-xs uppercase tracking-[0.22em] text-stone-500">
@@ -148,6 +152,38 @@ export default function ExampleTribute() {
                     still gather people together.
                   </p>
                 </div>
+              </div>
+
+              {/* GALLERY (below story, correct images) */}
+              <div className="rounded-[1.5rem] border border-stone-200/70 bg-white p-6 shadow-sm md:p-8">
+                <p className="mb-4 text-xs uppercase tracking-[0.22em] text-stone-500">Family Photos</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
+                  <div className="flex flex-col items-center">
+                    <img src="/Mom%20Combing%20Hair.jpg" alt="Combing Hair" className="rounded-2xl object-cover h-40 w-full" />
+                    <div className="mt-2 flex gap-2">
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕯️ 8</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕊️ 5</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🌸 3</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <img src="/Mom%20w%20Flowers.jpg" alt="With Flowers" className="rounded-2xl object-cover h-40 w-full" />
+                    <div className="mt-2 flex gap-2">
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕯️ 10</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕊️ 7</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🌸 4</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center hidden sm:flex">
+                    <img src="/Mom%20and%20Dad%20Halloween.jpg" alt="Halloween" className="rounded-2xl object-cover h-40 w-full" />
+                    <div className="mt-2 flex gap-2">
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕯️ 6</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🕊️ 4</span>
+                      <span className="rounded-full bg-white px-3 py-1 text-stone-700 ring-1 ring-stone-200 text-xs">🌸 2</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 text-xs text-stone-400 text-center">Sample photos for demonstration only</div>
               </div>
 
               {/* TIMELINE */}

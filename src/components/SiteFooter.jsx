@@ -4,7 +4,7 @@ export default function SiteFooter() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50 px-6 py-10">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 text-sm text-slate-600 md:flex-row">
-        <p className="text-xs uppercase tracking-[0.16em] text-slate-500">EverTrace</p>
+        <Link to="/" className="text-xs uppercase tracking-[0.16em] text-slate-500 transition hover:text-slate-900">EverTrace</Link>
         <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
           <Link to="/about" className="transition hover:text-slate-900">About Us</Link>
           <Link to="/faq" className="transition hover:text-slate-900">FAQs</Link>
