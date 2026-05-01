@@ -116,13 +116,7 @@ function DecisionCard({
       <button
         type="button"
         onClick={onClick}
-                <img
-                  src="/qrCodeInBox.jpg"
-                  alt="QR plaque preview"
-                  className="mx-auto h-40 w-auto object-contain"
-                  style={{ background: '#f8f1fa' }}
-                />
-          "mt-7 inline-flex rounded-xl px-5 py-3 text-sm font-medium transition",
+        className={["mt-7 inline-flex rounded-xl px-5 py-3 text-sm font-medium transition",
           featured
             ? "bg-slate-900 text-white hover:bg-slate-800"
             : "border border-stone-300 bg-white text-slate-800 hover:bg-stone-50",
